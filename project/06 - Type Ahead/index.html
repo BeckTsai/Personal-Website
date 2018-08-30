@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State" v-model="filter">
+    <ul class="suggestions">
+      <template v-if="filter && filterArray.length">
+        <li v-for="city in filterArray">
+          <span class="name" v-html="highLight(city)"></span>
+          <span class="population">{{(city.population * 1).toLocaleString()}}</span>
+        </li>
+      </template>
+      <template v-else>
+        <li>Filter for a city</li>
+        <li>or a state</li>
+      </template>
+    </ul>
+  </form>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js'></script>
+  <script>
+    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+    new Vue({
+      el: '.search-form',
+      data() {
+        return {
+          filter: '',
+          cities: []
+        }
+      },
+      computed: {
+        regexp() {
+          return new RegExp(this.filter, 'gi');
+        },
+        filterArray() {
+          return this.cities.filter(city => city.city.match(this.regexp) || city.state.match(this.regexp))
+        }
+      },
+      methods: {
+        highLight(city) {
+          const cityName = city.city.replace(this.regexp, `<span class="hl">${this.filter}</span>`);
+          const stateName = city.state.replace(this.regexp, `<span class='hl'>${this.filter}</span>`);
+          return `${cityName} , ${stateName}  `
+        }
+      },
+      mounted() {
+        fetch(endpoint)
+          .then(blob => blob.json())
+          .then(data => this.cities.push(...data));
+        console.log(this.cities)
+
+      }
+    })
+
+  </script>
+</body>
+
+</html>

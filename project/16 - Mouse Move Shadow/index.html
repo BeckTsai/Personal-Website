@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+</head>
+
+<body>
+
+  <div class="hero">
+    <h1 contenteditable :style='styleList'>🔥WOAH!</h1>
+  </div>
+
+  <style>
+    html {
+      color: black;
+      font-family: sans-serif;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: black;
+    }
+
+    h1 {
+      text-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
+      text-shadow: 10px 10px 0 rgba(214, 31, 144, 0.895);
+      font-size: 100px;
+    }
+  </style>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js'></script>
+
+  <script>
+    new Vue({
+      el: '.hero',
+      data: () => {
+        return {
+          styleList: {}
+        }
+      },
+      computed: {
+        hero() {
+          let hero = document.querySelector('.hero')
+          return hero
+        },
+      },
+      methods: {
+        moveHandler(e) {
+          // console.log(e)
+          let { offsetWidth: w, offsetHeight: h } = this.hero
+
+          let { offsetX: x, offsetY: y } = e
+
+          if (e.currentTarget !== e.target) {
+
+            x += e.target.offsetLeft
+            y += e.target.offsetTop
+          }
+
+          let centerX = w / 2
+          let centerY = h / 2
+
+          let lengthX = (x - centerX) * -0.5
+          let lengthY = (y - centerY) * -0.5
+
+          this.styleList = {
+            textShadow: `
+          ${lengthX}px ${lengthY}px 10px rgba(255, 145, 0, 0.9),
+          ${lengthX}px ${-lengthY}px 10px rgba(0, 145, 255, 0.9),
+          ${-lengthX}px ${lengthY}px 10px rgba(31, 214, 43, 0.895),
+          ${-lengthX}px ${-lengthY}px 10px rgba(214, 31, 144, 0.895)`
+          }
+        }
+      },
+      mounted() {
+        this.hero.addEventListener('mousemove', this.moveHandler)
+      }
+    })
+
+
+    // let hero = document.querySelector('.hero')
+    // let h1 = hero.querySelector('h1')
+    // hero.addEventListener('mousemove', function (e) {
+
+    //   // let w = hero.offsetWidth
+    //   // let h = hero.offsetHeight
+    //   let { offsetWidth: w, offsetHeight: h } = hero
+
+    //   // let x = e.offsetX
+    //   // let y=  e.offsetY
+    //   let { offsetX: x, offsetY: y } = e
+
+    //   if (e.currentTarget !== e.target) {
+
+    //     x += e.target.offsetLeft
+    //     y += e.target.offsetTop
+    //   }
+
+    //   let centerX = w / 2
+    //   let centerY = h / 2
+
+    //   let lengthX = (x - centerX) * -0.5
+    //   let lengthY = (y - centerY) * -0.5
+
+    //   h1.style.textShadow = `
+    //   ${lengthX}px ${lengthY}px 10px rgba(255, 145, 0, 0.9),
+    //   ${lengthX}px ${-lengthY}px 10px rgba(0, 145, 255, 0.9),
+    //   ${-lengthX}px ${lengthY}px 10px rgba(31, 214, 43, 0.895),
+    //   ${-lengthX}px ${-lengthY}px 10px rgba(214, 31, 144, 0.895)`
+    // })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Click and Drag</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <div class="items">
+    <div class="item item1">01</div>
+    <div class="item item2">02</div>
+    <div class="item item3">03</div>
+    <div class="item item4">04</div>
+    <div class="item item5">05</div>
+    <div class="item item6">06</div>
+    <div class="item item7">07</div>
+    <div class="item item8">08</div>
+    <div class="item item9">09</div>
+    <div class="item item10">10</div>
+    <div class="item item11">11</div>
+    <div class="item item12">12</div>
+    <div class="item item13">13</div>
+    <div class="item item14">14</div>
+    <div class="item item15">15</div>
+    <div class="item item16">16</div>
+    <div class="item item17">17</div>
+    <div class="item item18">18</div>
+    <div class="item item19">19</div>
+    <div class="item item20">20</div>
+    <div class="item item21">21</div>
+    <div class="item item22">22</div>
+    <div class="item item23">23</div>
+    <div class="item item24">24</div>
+    <div class="item item25">25</div>
+  </div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js'></script>
+
+  <script>
+    new Vue({
+      el: '.items',
+      data: () => {
+        return {
+          startX: '',
+          isDown: false
+        }
+      },
+      computed: {
+        items() {
+          let items = document.querySelector('.items')
+          return items
+        }
+      },
+      mounted() {
+        this.items.addEventListener('mousedown', this.mousedown)
+        this.items.addEventListener('mouseup', this.mouseup)
+        this.items.addEventListener('mousemove', this.mousemove)
+        this.items.addEventListener('mouseleave', this.mouseleave)
+      },
+      methods: {
+        mousedown(e) {
+          this.items.classList.add('active')
+          this.startX = e.pageX
+          this.isDown = true;
+        },
+        mousemove(e) {
+          if (!this.isDown) return false
+          let x = e.pageX
+          let distance = x - this.startX
+          this.startX = x
+          this.items.scrollLeft -= distance * 5
+        },
+        mouseup(e) {
+          this.items.classList.remove('active')
+          this.isDown = false
+        },
+        mouseleave(e) {
+          this.items.classList.remove('active')
+          this.isDown = false
+        }
+      }
+    })
+
+  </script>
+</body>
+
+</html>

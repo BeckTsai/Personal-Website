@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Countdown Timer</title>
+  <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <div class="timer">
+    <div class="timer__controls">
+      <button data-time="20" class="timerButton" @click="setTime">20 Secs</button>
+      <button data-time="300" class="timerButton" @click="setTime">Work 5</button>
+      <button data-time="900" class="timerButton" @click="setTime">Quick 15</button>
+      <button data-time="1200" class="timerButton" @click="setTime">Snack 20</button>
+      <button data-time="3600" class="timerButton" @click="setTime">Lunch Break</button>
+      <form name="customForm" id="custom">
+        <input type="text" name="minutes" placeholder="Enter Minutes">
+      </form>
+    </div>
+    <div class="display">
+      <h1 class="displayTimeLeft">{{timeLeft}}</h1>
+      <p class="displayEndTime">{{endTime}}</p>
+    </div>
+  </div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js'></script>
+  <script>
+    new Vue({
+      el: '.timer',
+      data: () => {
+        return {
+          count: '',
+          timeLeft: '',
+          endTime: '',
+        }
+      },
+      computed: {
+        buttons() {
+          const buttons = document.querySelectorAll('.timerButton')
+          return buttons
+        },
+        input() {
+          const input = document.querySelector('form')
+          return input
+        },
+      },
+      mounted() {
+        this.input.addEventListener('submit', this.setInputTime)
+      },
+      methods: {
+        setTime(e) {
+          const button = e.currentTarget
+          clearInterval(this.count)
+          let remainTime = parseInt(button.dataset.time)
+          let currentTime = new Date()
+          this.showRemainTime(remainTime)
+          this.countDown(remainTime)
+          this.showEndTime(currentTime, remainTime)
+        },
+        showRemainTime(time) {
+          let hour = parseInt(time / 3600)
+          if (hour < 10) hour = `0${hour}`
+          let minutes = parseInt((time - hour * 3600) / 60)
+          if (minutes < 10) minutes = `0${minutes}`
+          let second = parseInt(time % 60)
+          if (second < 10) second = `0${second}`
+
+          let text = `${hour}:${minutes}:${second}`
+          this.timeLeft = text
+          document.title = text
+        },
+        countDown(remainTime) {
+          this.count = setInterval(() => {
+            if (remainTime > 0) {
+              remainTime--
+              this.showRemainTime(remainTime)
+            } else {
+              this.clearInterval(count)
+            }
+          }, 1000)
+        },
+        showEndTime(currentTime, remainTime) {
+          let currentHour = currentTime.getHours()
+          let currentMin = currentTime.getMinutes()
+          let currentSec = currentTime.getSeconds()
+
+          let predictTime = remainTime + currentHour * 3600 + currentMin * 60 + currentSec
+
+          let predictHour = parseInt(predictTime / 3600)
+          if (predictHour < 10) predictHour = `0${predictHour}`
+
+          let predictMin = parseInt((predictTime - predictHour * 3600) / 60)
+          if (predictMin < 10) predictMin = `0${predictMin}`
+
+          let predictSec = predictTime % 60
+          if (predictSec < 10) predictSec = `0${predictSec}`
+
+          this.endTime = `${predictHour % 24}:${predictMin}:${predictSec}`
+        },
+        setInputTime(e) {
+          e.preventDefault();
+          let that = e.currentTarget
+          let inputValue = that.querySelector('input').value
+          // console.log(inputValue)
+          if (isNaN(inputValue)) {
+            window.alert('請輸入數字')
+          } else {
+            clearInterval(this.count)
+            let remainTime = inputValue * 60
+            let currentTime = new Date()
+            this.showRemainTime(remainTime)
+            this.countDown(remainTime)
+            this.showEndTime(currentTime, remainTime)
+          }
+          that.reset()
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

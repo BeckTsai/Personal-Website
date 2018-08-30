@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Whack A Mole!</title>
+  <link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <div id="index">
+    <h1>Whack-a-mole!
+      <span class="score">{{scoreBoard}}</span>
+    </h1>
+    <button @click='startGame'>Start!</button>
+
+    <div class="game">
+      <div class="hole hole1">
+        <div class="mole" @click="bonk"></div>
+      </div>
+      <div class="hole hole2">
+        <div class="mole" @click="bonk"></div>
+      </div>
+      <div class="hole hole3">
+        <div class="mole" @click="bonk"></div>
+      </div>
+      <div class="hole hole4">
+        <div class="mole" @click="bonk"></div>
+      </div>
+      <div class="hole hole5">
+        <div class="mole" @click="bonk"></div>
+      </div>
+      <div class="hole hole6">
+        <div class="mole" @click="score"></div>
+      </div>
+    </div>
+  </div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js'></script>
+  <script>
+    new Vue({
+      el: '#index',
+      data: () => {
+        return {
+          scoreBoard: '0',
+          lastHole: '0',
+          turnOff: false,
+          score: '0'
+        }
+      },
+      computed: {
+        holes() {
+          const holes = document.querySelectorAll('.hole');
+          return holes
+        }
+      },
+      methods: {
+        random(min, max) {
+          let time = Math.floor(Math.random(max - min) + min)
+          return time
+        },
+        randomHole(holes) {
+          const index = Math.floor(Math.random() * 6);
+          const hole = holes[index];
+          if (hole === this.lastHole) {
+            return this.randomHole(holes);
+          }
+          this.lastHole = hole;
+          return hole;
+        },
+        popUP() {
+          const time = this.random(500, 900);
+          const hole = this.randomHole(this.holes);
+          hole.classList.add('up');
+          setTimeout(() => {
+            hole.classList.remove('up');
+            if (!turnOff) this.popUP();
+          }, time);
+        },
+        bonk(e) {
+          if (!e.isTrusted) return;
+          this.score++;
+          e.currentTarget.parentNode.classList.remove('up');
+          this.scoreBoard = this.score;
+        },
+        startGame() {
+          this.scoreBoard = 0;
+          this.score = 0;
+          turnOff = false;
+          this.popUP();
+          setTimeout(() => turnOff = true, 10000)
+        }
+
+      }
+
+
+    })
+  </script>
+</body>
+
+</html>

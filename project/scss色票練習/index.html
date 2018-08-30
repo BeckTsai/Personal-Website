@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="./style/style.css">
+</head>
+<div class="container" id="app">
+  <h1>SCSS色票練習</h1>
+  <hr>
+  <div class="row">
+    <div class="col-sm-4">
+      <textarea cols="30" rows="10" v-model="colorSetting"></textarea>
+    </div>
+    <div class="col-sm-8">
+      <ul class="row">
+        <li class="col-sm-3" v-for="card in colorCards">
+          <div class="colorCard">
+            <div class="block" v-bind:style="card.colorCss"></div>
+            <div class="info">
+              <div class="name">{{card.name}}</div>
+              <div class="code">{{card.color}}</div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vuex/3.0.1/vuex.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.1/vue-router.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js'></script>
+<script>
+  const vm = new Vue({
+    el: '#app',
+    data: {
+      colorSetting: "//顏色變數 \n$color_black: #303030 \n$color_bg: #F7F0E9\n$color_berry: #D56134\n$color_top: #9C4215\n$color_md_1: #F3D1BA\n$color_md_2: #F7E1CD\n$color_bottom: #773000\n$color_cherry_1: #FF613A\n$color_cherry_2: #DF5333"
+    },
+    computed: {
+      colorCards() {
+        let result = []
+        let cutString = this.colorSetting.split('\n')
+        for (let i = 0; i < cutString.length; i++) {
+          let colorName = cutString[i].split(':')[0]
+          let colorCode = cutString[i].split(' ')[1]
+          if (colorName.indexOf('color') != -1) {
+            result.push({
+              name: colorName,
+              color: colorCode,
+              colorCss: {
+                "background-color": colorCode
+              }
+            })
+          }
+        }
+        return result
+      }
+    }
+
+
+  })
+</script>
+
+
+
+<body>
+
+</body>
+
+</html>
