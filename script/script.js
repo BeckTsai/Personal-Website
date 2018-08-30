@@ -106,7 +106,7 @@ const Page1 = {
             <p>把鍵盤當作MIDI訊號,藉此呼叫音源，頁面上對應的字母會變大變亮</p>
           </div>
           <div class="uk-card-footer">
-            <a href="/project/1. drum kit/index.html" class="uk-button uk-button-text">Read more</a>
+            <a href="../project/1. drum kit/index.html" class="uk-button uk-button-text">Read more</a>
           </div>
         </div>
         <div class="uk-card uk-card-default uk-width-1-2@m">
