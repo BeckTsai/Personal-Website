@@ -35,9 +35,8 @@ header {
   width: 80%;
   height: 15vh;
   margin: 0 auto;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
 }
 
 header #profile {
@@ -81,6 +80,7 @@ header #profile > p:last-child {
   -webkit-box-align: end;
       -ms-flex-align: end;
           align-items: flex-end;
+  margin-top: 0;
   margin-bottom: 0;
   padding: 0;
 }
@@ -112,6 +112,8 @@ header #profile > p:last-child {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
   width: 80%;
   height: 65vh;
   margin: 0 auto;
@@ -131,12 +133,14 @@ header #profile > p:last-child {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  min-width: 300px;
-  min-height: 300px;
+  min-width: 25rem;
+  min-height: 25rem;
   margin: 0;
   padding: 0;
   -ms-flex-pack: distribute;
       justify-content: space-around;
+  -ms-flex-line-pack: center;
+      align-content: center;
   list-style-type: none;
   -webkit-transform: translateX(0);
           transform: translateX(0);
@@ -144,14 +148,14 @@ header #profile > p:last-child {
 
 #content > .list > li {
   text-align: center;
-  line-height: 300px;
+  line-height: 25rem;
 }
 
 #content > .list > li > a {
   display: inline-block;
-  min-width: 125px;
-  min-height: 125px;
-  line-height: 125px;
+  width: 150px;
+  height: 150px;
+  line-height: 150px;
   border-radius: 50%;
   text-decoration: none;
   color: whitesmoke;
@@ -257,7 +261,7 @@ header #profile > p:last-child {
 }
 
 footer {
-  height: 20vh;
+  height: 20%;
   -ms-flex-item-align: inherit;
       -ms-grid-row-align: inherit;
       align-self: inherit;
@@ -275,6 +279,7 @@ footer > .bgColor > ul {
   display: flex;
   width: 55%;
   margin: 0 auto;
+  padding-top: 2rem;
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
@@ -284,6 +289,16 @@ footer > .bgColor > ul {
 }
 
 footer > .bgColor > ul > li {
-  margin-left: 5rem;
+  margin-left: 7rem;
+  list-style-type: none;
+}
+
+footer > .bgColor > ul > li i {
+  font-size: 3.5rem;
+  color: #040931;
+}
+
+footer > .bgColor > ul > li:last-child {
+  margin-left: 2rem;
 }
 /*# sourceMappingURL=style.css.map */
